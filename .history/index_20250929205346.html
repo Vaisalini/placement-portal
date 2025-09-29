@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>University Placement Portal</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <h2>University Placement Portal</h2>
+            </div>
+            <div class="nav-menu" id="navMenu">
+                <div class="nav-user" id="navUser" style="display: none;">
+                    <span id="userName"></span>
+                    <button class="btn btn--secondary btn--sm" onclick="logout()">Logout</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar" style="display: none;">
+        <nav class="sidebar-nav" id="sidebarNav">
+            <!-- Dynamic content based on role -->
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content" id="mainContent">
+        
+        <!-- Landing Page -->
+        <div id="landingPage" class="page active">
+            <div class="hero-section">
+                <div class="container">
+                    <div class="hero-content">
+                        <h1>University Placement & Internship Portal</h1>
+                        <p class="hero-description">Connect students, mentors, employers, and placement officers in one comprehensive platform</p>
+                        
+                        <div class="role-cards">
+                            <div class="role-card" onclick="showLogin('student')">
+                                <div class="role-icon">👨‍🎓</div>
+                                <h3>Student</h3>
+                                <p>Find internships, track applications, manage your career journey</p>
+                            </div>
+                            
+                            <div class="role-card" onclick="showLogin('mentor')">
+                                <div class="role-icon">👨‍🏫</div>
+                                <h3>Mentor</h3>
+                                <p>Guide students, approve applications, provide valuable feedback</p>
+                            </div>
+                            
+                            <div class="role-card" onclick="showLogin('placement')">
+                                <div class="role-icon">💼</div>
+                                <h3>Placement Cell</h3>
+                                <p>Manage opportunities, analyze data, facilitate placements</p>
+                            </div>
+                            
+                            <div class="role-card" onclick="showLogin('employer')">
+                                <div class="role-icon">🏢</div>
+                                <h3>Employer</h3>
+                                <p>Post opportunities, find talent, conduct assessments</p>
+                            </div>
+                            
+                            <div class="role-card" onclick="showLogin('admin')">
+                                <div class="role-icon">⚙️</div>
+                                <h3>Admin</h3>
+                                <p>System management, user control, audit and monitoring</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Login Page -->
+        <div id="loginPage" class="page">
+            <div class="auth-container">
+                <div class="auth-card card">
+                    <div class="card__body">
+                        <h2 id="loginTitle">Login</h2>
+                        <form id="loginForm" onsubmit="handleLogin(event)">
+                            <div class="form-group">
+                                <label class="form-label" for="email">Email</label>
+                                <input type="email" id="email" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="password">Password</label>
+                                <input type="password" id="password" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn--primary btn--full-width">Login</button>
+                            </div>
+                        </form>
+                        <div class="auth-footer">
+                            <button class="btn btn--outline" onclick="showLanding()">Back to Home</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Student Dashboard -->
+        <div id="studentDashboard" class="page dashboard-page">
+            <div class="dashboard-header">
+                <h1>Student Dashboard</h1>
+                <p>Welcome back, <span id="studentName"></span>!</p>
+            </div>
+            
+            <div class="dashboard-grid">
+                <div class="dashboard-stats">
+                    <div class="stat-card card">
+                        <div class="card__body">
+                            <div class="stat-content">
+                                <div class="stat-info">
+                                    <h3 id="profileCompleteness">0%</h3>
+                                    <p>Profile Complete</p>
+                                </div>
+                                <div class="progress-ring">
+                                    <div class="progress-bar" id="profileProgress"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card card">
+                        <div class="card__body">
+                            <div class="stat-content">
+                                <div class="stat-info">
+                                    <h3 id="jobFitScore">0</h3>
+                                    <p>Job Fit Score</p>
+                                </div>
+                                <div class="fit-score-indicator">
+                                    <div class="score-bar" id="fitScoreBar"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card card">
+                        <div class="card__body">
+                            <div class="stat-content">
+                                <div class="stat-info">
+                                    <h3 id="totalApplications">0</h3>
+                                    <p>Applications</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card card">
+                        <div class="card__body">
+                            <div class="stat-content">
+                                <div class="stat-info">
+                                    <h3 id="interviewsScheduled">0</h3>
+                                    <p>Interviews</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="recommended-section">
+                    <div class="card">
+                        <div class="card__body">
+                            <h3>Recommended Internships</h3>
+                            <div id="recommendedInternships" class="internship-grid">
+                                <!-- Dynamic content -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Student Profile Setup -->
+        <div id="studentProfile" class="page">
+            <div class="profile-container">
+                <h1>Profile Setup</h1>
+                
+                <div class="tab-container">
+                    <div class="tabs">
+                        <button class="tab active" onclick="switchTab(event, 'personal')">Personal Info</button>
+                        <button class="tab" onclick="switchTab(event, 'academics')">Academics</button>
+                        <button class="tab" onclick="switchTab(event, 'skills')">Skills & Badges</button>
+                        <button class="tab" onclick="switchTab(event, 'resume')">Resume Upload</button>
+                    </div>
+                    
+                    <div class="tab-content">
+                        <div id="personalTab" class="tab-pane active">
+                            <form class="profile-form">
+                                <div class="form-group">
+                                    <label class="form-label">Full Name</label>
+                                    <input type="text" class="form-control" id="fullName">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Email</label>
+                                    <input type="email" class="form-control" id="profileEmail">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Phone</label>
+                                    <input type="tel" class="form-control" id="phone">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Address</label>
+                                    <textarea class="form-control" id="address" rows="3"></textarea>
+                                </div>
+                            </form>
+                        </div>
+                        
+                        <div id="academicsTab" class="tab-pane">
+                            <form class="profile-form">
+                                <div class="form-group">
+                                    <label class="form-label">Department</label>
+                                    <select class="form-control" id="department">
+                                        <option value="">Select Department</option>
+                                        <option value="Computer Science">Computer Science</option>
+                                        <option value="Electronics">Electronics</option>
+                                        <option value="Mechanical">Mechanical</option>
+                                        <option value="Civil">Civil</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Year</label>
+                                    <select class="form-control" id="year">
+                                        <option value="">Select Year</option>
+                                        <option value="1">1st Year</option>
+                                        <option value="2">2nd Year</option>
+                                        <option value="3">3rd Year</option>
+                                        <option value="4">4th Year</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">CGPA</label>
+                                    <input type="number" class="form-control" id="cgpa" step="0.1" max="10">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Projects (comma separated)</label>
+                                    <textarea class="form-control" id="projects" rows="3"></textarea>
+                                </div>
+                            </form>
+                        </div>
+                        
+                        <div id="skillsTab" class="tab-pane">
+                            <div class="skills-section">
+                                <div class="form-group">
+                                    <label class="form-label">Skills</label>
+                                    <input type="text" class="form-control" id="skillInput" placeholder="Enter a skill and press Enter">
+                                </div>
+                                <div id="skillTags" class="skill-tags">
+                                    <!-- Dynamic skill tags -->
+                                </div>
+                                <div class="form-group" style="margin-top: 20px;">
+                                    <label class="form-label">Certifications</label>
+                                    <input type="text" class="form-control" id="certInput" placeholder="Enter certification and press Enter">
+                                </div>
+                                <div id="certTags" class="skill-tags">
+                                    <!-- Dynamic cert tags -->
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div id="resumeTab" class="tab-pane">
+                            <div class="upload-section">
+                                <div class="upload-area" onclick="document.getElementById('resumeFile').click()">
+                                    <div class="upload-content">
+                                        <div class="upload-icon">📄</div>
+                                        <p>Click to upload your resume</p>
+                                        <p class="upload-note">PDF files only, max 5MB</p>
+                                    </div>
+                                </div>
+                                <input type="file" id="resumeFile" accept=".pdf" style="display: none;">
+                                <div id="resumePreview" class="resume-preview" style="display: none;">
+                                    <div class="preview-content">
+                                        <span id="resumeFileName"></span>
+                                        <button class="btn btn--outline btn--sm" onclick="removeResume()">Remove</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="profile-actions">
+                        <button class="btn btn--primary" onclick="saveProfile()">Save Profile</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- AI Resume Checker -->
+        <div id="aiResumeChecker" class="page">
+            <div class="container">
+                <h1>AI Resume Checker</h1>
+                <div class="resume-checker-content">
+                    <div class="checker-grid">
+                        <div class="analysis-card card">
+                            <div class="card__body">
+                                <h3>Resume Analysis</h3>
+                                <div class="analysis-scores">
+                                    <div class="score-item">
+                                        <span class="score-label">Technical Skills</span>
+                                        <div class="score-bar-container">
+                                            <div class="score-bar" data-score="85" style="width: 85%"></div>
+                                        </div>
+                                        <span class="score-value">85/100</span>
+                                    </div>
+                                    <div class="score-item">
+                                        <span class="score-label">Experience</span>
+                                        <div class="score-bar-container">
+                                            <div class="score-bar" data-score="70" style="width: 70%"></div>
+                                        </div>
+                                        <span class="score-value">70/100</span>
+                                    </div>
+                                    <div class="score-item">
+                                        <span class="score-label">Education</span>
+                                        <div class="score-bar-container">
+                                            <div class="score-bar" data-score="92" style="width: 92%"></div>
+                                        </div>
+                                        <span class="score-value">92/100</span>
+                                    </div>
+                                    <div class="score-item">
+                                        <span class="score-label">Formatting</span>
+                                        <div class="score-bar-container">
+                                            <div class="score-bar" data-score="78" style="width: 78%"></div>
+                                        </div>
+                                        <span class="score-value">78/100</span>
+                                    </div>
+                                </div>
+                                <div class="overall-score">
+                                    <h4>Overall Score: 81/100</h4>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="recommendations-card card">
+                            <div class="card__body">
+                                <h3>Improvement Recommendations</h3>
+                                <div class="recommendations-list">
+                                    <div class="recommendation-item">
+                                        <div class="rec-icon">💡</div>
+                                        <div class="rec-content">
+                                            <h4>Add More Technical Projects</h4>
+                                            <p>Include 2-3 more technical projects showcasing different skills</p>
+                                        </div>
+                                    </div>
+                                    <div class="recommendation-item">
+                                        <div class="rec-icon">📊</div>
+                                        <div class="rec-content">
+                                            <h4>Quantify Achievements</h4>
+                                            <p>Use numbers and metrics to describe your accomplishments</p>
+                                        </div>
+                                    </div>
+                                    <div class="recommendation-item">
+                                        <div class="rec-icon">🎯</div>
+                                        <div class="rec-content">
+                                            <h4>Optimize Keywords</h4>
+                                            <p>Include more industry-specific keywords and technologies</p>
+                                        </div>
+                                    </div>
+                                    <div class="recommendation-item">
+                                        <div class="rec-icon">✨</div>
+                                        <div class="rec-content">
+                                            <h4>Improve Formatting</h4>
+                                            <p>Use consistent fonts, spacing, and bullet points</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Internship Board -->
+        <div id="internshipBoard" class="page">
+            <div class="board-header">
+                <h1>Internship Opportunities</h1>
+                <div class="board-controls">
+                    <div class="search-box">
+                        <input type="text" placeholder="Search internships..." class="form-control" id="internshipSearch">
+                    </div>
+                    <div class="filter-controls">
+                        <select class="form-control" id="departmentFilter">
+                            <option value="">All Departments</option>
+                            <option value="Computer Science">Computer Science</option>
+                            <option value="Electronics">Electronics</option>
+                            <option value="Mechanical">Mechanical</option>
+                            <option value="Civil">Civil</option>
+                        </select>
+                        <select class="form-control" id="stipendFilter">
+                            <option value="">All Stipends</option>
+                            <option value="0-20000">₹0 - ₹20,000</option>
+                            <option value="20000-30000">₹20,000 - ₹30,000</option>
+                            <option value="30000+">₹30,000+</option>
+                        </select>
+                        <select class="form-control" id="locationFilter">
+                            <option value="">All Locations</option>
+                            <option value="Bangalore">Bangalore</option>
+                            <option value="Pune">Pune</option>
+                            <option value="Chennai">Chennai</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="internshipGrid" class="internship-grid">
+                <!-- Dynamic internship cards -->
+            </div>
+        </div>
+
+        <!-- Application Tracking -->
+        <div id="applicationTracking" class="page">
+            <div class="tracking-header">
+                <h1>Application Tracking</h1>
+                <p>Monitor your internship application progress</p>
+            </div>
+            
+            <div id="applicationsList" class="applications-list">
+                <!-- Dynamic application cards with timelines -->
+            </div>
+        </div>
+
+        <!-- Interview Calendar -->
+        <div id="interviewCalendar" class="page">
+            <div class="calendar-header">
+                <h1>Interview Schedule</h1>
+                <div class="calendar-controls">
+                    <button class="btn btn--outline" onclick="prevMonth()">‹ Previous</button>
+                    <span id="currentMonth" class="current-month"></span>
+                    <button class="btn btn--outline" onclick="nextMonth()">Next ›</button>
+                </div>
+            </div>
+            
+            <div id="calendarGrid" class="calendar-grid">
+                <!-- Dynamic calendar -->
+            </div>
+        </div>
+
+        <!-- Certificates -->
+        <div id="certificates" class="page">
+            <div class="container">
+                <h1>My Certificates</h1>
+                <div id="certificatesList" class="certificates-grid">
+                    <!-- Dynamic certificates -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Mentor Dashboard -->
+        <div id="mentorDashboard" class="page dashboard-page">
+            <div class="dashboard-header">
+                <h1>Mentor Dashboard</h1>
+                <p>Welcome, <span id="mentorName"></span>!</p>
+            </div>
+            
+            <div class="mentor-content">
+                <div class="pending-approvals card">
+                    <div class="card__body">
+                        <h3>Pending Approvals <span id="pendingCount" class="count-badge">0</span></h3>
+                        <div id="pendingApprovals">
+                            <!-- Dynamic content -->
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mentee-overview card">
+                    <div class="card__body">
+                        <h3>Your Mentees <span id="menteeCount" class="count-badge">0</span></h3>
+                        <div id="menteeList">
+                            <!-- Dynamic content -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Approval Screen -->
+        <div id="approvalScreen" class="page">
+            <div class="approval-container">
+                <h1>Application Approval</h1>
+                <div id="approvalDetails" class="approval-split">
+                    <!-- Dynamic approval content -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Feedback Entry -->
+        <div id="feedbackEntry" class="page">
+            <div class="feedback-container">
+                <h1>Student Feedback</h1>
+                <div class="feedback-form-container card">
+                    <div class="card__body">
+                        <form id="feedbackForm">
+                            <div class="rating-section">
+                                <h3>Performance Ratings</h3>
+                                <div class="rating-grid">
+                                    <div class="rating-item">
+                                        <label>Technical Skills</label>
+                                        <div class="rating-stars" data-field="technicalSkills">
+                                            <span data-rating="1">⭐</span>
+                                            <span data-rating="2">⭐</span>
+                                            <span data-rating="3">⭐</span>
+                                            <span data-rating="4">⭐</span>
+                                            <span data-rating="5">⭐</span>
+                                        </div>
+                                    </div>
+                                    <div class="rating-item">
+                                        <label>Communication</label>
+                                        <div class="rating-stars" data-field="communicationSkills">
+                                            <span data-rating="1">⭐</span>
+                                            <span data-rating="2">⭐</span>
+                                            <span data-rating="3">⭐</span>
+                                            <span data-rating="4">⭐</span>
+                                            <span data-rating="5">⭐</span>
+                                        </div>
+                                    </div>
+                                    <div class="rating-item">
+                                        <label>Problem Solving</label>
+                                        <div class="rating-stars" data-field="problemSolving">
+                                            <span data-rating="1">⭐</span>
+                                            <span data-rating="2">⭐</span>
+                                            <span data-rating="3">⭐</span>
+                                            <span data-rating="4">⭐</span>
+                                            <span data-rating="5">⭐</span>
+                                        </div>
+                                    </div>
+                                    <div class="rating-item">
+                                        <label>Teamwork</label>
+                                        <div class="rating-stars" data-field="teamwork">
+                                            <span data-rating="1">⭐</span>
+                                            <span data-rating="2">⭐</span>
+                                            <span data-rating="3">⭐</span>
+                                            <span data-rating="4">⭐</span>
+                                            <span data-rating="5">⭐</span>
+                                        </div>
+                                    </div>
+                                    <div class="rating-item">
+                                        <label>Punctuality</label>
+                                        <div class="rating-stars" data-field="punctuality">
+                                            <span data-rating="1">⭐</span>
+                                            <span data-rating="2">⭐</span>
+                                            <span data-rating="3">⭐</span>
+                                            <span data-rating="4">⭐</span>
+                                            <span data-rating="5">⭐</span>
+                                        </div>
+                                    </div>
+                                    <div class="rating-item">
+                                        <label>Initiative</label>
+                                        <div class="rating-stars" data-field="initiative">
+                                            <span data-rating="1">⭐</span>
+                                            <span data-rating="2">⭐</span>
+                                            <span data-rating="3">⭐</span>
+                                            <span data-rating="4">⭐</span>
+                                            <span data-rating="5">⭐</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Overall Comments</label>
+                                <textarea class="form-control" id="overallComments" rows="4" placeholder="Provide detailed feedback about the student's performance..."></textarea>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Areas of Strength</label>
+                                <textarea class="form-control" id="strengths" rows="3" placeholder="List the student's key strengths..."></textarea>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Areas for Improvement</label>
+                                <textarea class="form-control" id="improvements" rows="3" placeholder="Suggest areas where the student can improve..."></textarea>
+                            </div>
+                            
+                            <div class="form-actions">
+                                <button type="button" class="btn btn--outline" onclick="saveFeedbackDraft()">Save Draft</button>
+                                <button type="button" class="btn btn--primary" onclick="submitFeedback()">Submit Feedback</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Placement Dashboard -->
+        <div id="placementDashboard" class="page dashboard-page">
+            <div class="dashboard-header">
+                <h1>Placement Dashboard</h1>
+                <p>Comprehensive placement management overview</p>
+            </div>
+            
+            <div class="placement-stats-grid">
+                <div class="stat-card card">
+                    <div class="card__body">
+                        <div class="stat-content">
+                            <div class="stat-info">
+                                <h3 id="totalInternships">0</h3>
+                                <p>Active Internships</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="stat-card card">
+                    <div class="card__body">
+                        <div class="stat-content">
+                            <div class="stat-info">
+                                <h3 id="studentsPlaced">0</h3>
+                                <p>Students Placed</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="stat-card card">
+                    <div class="card__body">
+                        <div class="stat-content">
+                            <div class="stat-info">
+                                <h3 id="pendingApprovalsCount">0</h3>
+                                <p>Pending Approvals</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="stat-card card">
+                    <div class="card__body">
+                        <div class="stat-content">
+                            <div class="stat-info">
+                                <h3 id="upcomingInterviews">0</h3>
+                                <p>Upcoming Interviews</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Post Opportunity -->
+        <div id="postOpportunity" class="page">
+            <div class="container">
+                <h1>Post New Internship</h1>
+                <div class="opportunity-form-container card">
+                    <div class="card__body">
+                        <form id="opportunityForm">
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label class="form-label">Job Title</label>
+                                    <input type="text" class="form-control" id="jobTitle" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Company Name</label>
+                                    <select class="form-control" id="companyName" required>
+                                        <option value="">Select Company</option>
+                                        <option value="TechCorp Solutions">TechCorp Solutions</option>
+                                        <option value="DataFlow Analytics">DataFlow Analytics</option>
+                                        <option value="ChipTech Industries">ChipTech Industries</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Department</label>
+                                    <select class="form-control" id="targetDepartment" required>
+                                        <option value="">Select Department</option>
+                                        <option value="Computer Science">Computer Science</option>
+                                        <option value="Electronics">Electronics</option>
+                                        <option value="Mechanical">Mechanical</option>
+                                        <option value="Civil">Civil</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Location</label>
+                                    <input type="text" class="form-control" id="jobLocation" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Duration</label>
+                                    <input type="text" class="form-control" id="jobDuration" placeholder="e.g., 6 months" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Stipend (₹)</label>
+                                    <input type="number" class="form-control" id="jobStipend" required>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Job Description</label>
+                                <textarea class="form-control" id="jobDescription" rows="4" required></textarea>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Requirements</label>
+                                <textarea class="form-control" id="jobRequirements" rows="4" required></textarea>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Required Skills (comma separated)</label>
+                                <input type="text" class="form-control" id="requiredSkills" placeholder="React, JavaScript, Python">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Application Deadline</label>
+                                <input type="date" class="form-control" id="applicationDeadline" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Placement Chance</label>
+                                <select class="form-control" id="placementChance">
+                                    <option value="High">High</option>
+                                    <option value="Medium">Medium</option>
+                                    <option value="Low">Low</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-actions">
+                                <button type="button" class="btn btn--outline" onclick="saveDraft()">Save Draft</button>
+                                <button type="submit" class="btn btn--primary">Post Internship</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Analytics -->
+        <div id="analytics" class="page">
+            <div class="analytics-header">
+                <h1>Placement Analytics</h1>
+                <div class="analytics-controls">
+                    <button class="btn btn--outline" onclick="exportToPDF()">Export PDF</button>
+                    <button class="btn btn--outline" onclick="exportToExcel()">Export Excel</button>
+                </div>
+            </div>
+            
+            <div class="analytics-grid">
+                <div class="chart-container card" style="position: relative; height: 400px;">
+                    <div class="card__body">
+                        <h3>Department-wise Placements</h3>
+                        <canvas id="departmentChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="chart-container card" style="position: relative; height: 400px;">
+                    <div class="card__body">
+                        <h3>Monthly Application Trends</h3>
+                        <canvas id="trendsChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="chart-container card" style="position: relative; height: 400px;">
+                    <div class="card__body">
+                        <h3>Stipend Distribution</h3>
+                        <canvas id="stipendChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="chart-container card" style="position: relative; height: 400px;">
+                    <div class="card__body">
+                        <h3>Company-wise Hiring</h3>
+                        <canvas id="companyChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Crisis Management -->
+        <div id="crisisManagement" class="page">
+            <div class="container">
+                <h1>Crisis Management</h1>
+                <div class="crisis-dashboard">
+                    <div id="crisisItems" class="crisis-items">
+                        <!-- Dynamic crisis items -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Matching Overview -->
+        <div id="matchingOverview" class="page">
+            <div class="container">
+                <h1>Explainable Matching Overview</h1>
+                <div id="matchingResults" class="matching-results">
+                    <!-- Dynamic matching results -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Employer Dashboard -->
+        <div id="employerDashboard" class="page dashboard-page">
+            <div class="dashboard-header">
+                <h1>Employer Dashboard</h1>
+                <p>Welcome, <span id="employerName"></span>!</p>
+            </div>
+            
+            <div class="employer-stats-grid">
+                <div class="stat-card card">
+                    <div class="card__body">
+                        <div class="stat-content">
+                            <div class="stat-info">
+                                <h3 id="postedRoles">0</h3>
+                                <p>Posted Roles</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="stat-card card">
+                    <div class="card__body">
+                        <div class="stat-content">
+                            <div class="stat-info">
+                                <h3 id="candidateResponses">0</h3>
+                                <p>Applications Received</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="stat-card card">
+                    <div class="card__body">
+                        <div class="stat-content">
+                            <div class="stat-info">
+                                <h3 id="interviewsToday">0</h3>
+                                <p>Interviews Today</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="stat-card card">
+                    <div class="card__body">
+                        <div class="stat-content">
+                            <div class="stat-info">
+                                <h3 id="offersExtended">0</h3>
+                                <p>Offers Extended</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="employer-content">
+                <div class="recent-applications card">
+                    <div class="card__body">
+                        <h3>Recent Applications</h3>
+                        <div id="recentApplications">
+                            <!-- Dynamic content -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Shortlisting -->
+        <div id="shortlisting" class="page">
+            <div class="container">
+                <h1>Candidate Shortlisting</h1>
+                <div id="candidatesList" class="candidates-list">
+                    <!-- Dynamic candidates -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Interview Scheduling -->
+        <div id="interviewScheduling" class="page">
+            <div class="container">
+                <h1>Interview Scheduling</h1>
+                <div id="schedulingInterface" class="scheduling-interface">
+                    <!-- Dynamic scheduling content -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Assessment Module -->
+        <div id="assessmentModule" class="page">
+            <div class="container">
+                <h1>Assessment Module</h1>
+                <div class="assessment-tabs">
+                    <button class="tab-btn active" onclick="switchAssessmentTab('create')">Create Assessment</button>
+                    <button class="tab-btn" onclick="switchAssessmentTab('results')">View Results</button>
+                </div>
+                <div id="assessmentContent" class="assessment-content">
+                    <!-- Dynamic assessment content -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Offers and Feedback -->
+        <div id="offersAndFeedback" class="page">
+            <div class="container">
+                <h1>Offers & Feedback</h1>
+                <div class="offers-feedback-tabs">
+                    <button class="tab-btn active" onclick="switchOfferTab('offers')">Manage Offers</button>
+                    <button class="tab-btn" onclick="switchOfferTab('feedback')">Student Feedback</button>
+                </div>
+                <div id="offersContent" class="offers-content">
+                    <!-- Dynamic offers content -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Admin Dashboard -->
+        <div id="adminDashboard" class="page dashboard-page">
+            <div class="dashboard-header">
+                <h1>Admin Dashboard</h1>
+                <p>System overview and management</p>
+            </div>
+            
+            <div class="admin-stats-grid">
+                <div class="stat-card card">
+                    <div class="card__body">
+                        <div class="stat-content">
+                            <div class="stat-info">
+                                <h3 id="totalUsers">0</h3>
+                                <p>Total Users</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="stat-card card">
+                    <div class="card__body">
+                        <div class="stat-content">
+                            <div class="stat-info">
+                                <h3 id="systemUptime">99.9%</h3>
+                                <p>System Uptime</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="stat-card card">
+                    <div class="card__body">
+                        <div class="stat-content">
+                            <div class="stat-info">
+                                <h3 id="activeConnections">0</h3>
+                                <p>Active Users</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="stat-card card">
+                    <div class="card__body">
+                        <div class="stat-content">
+                            <div class="stat-info">
+                                <h3 id="securityAlerts">0</h3>
+                                <p>Security Alerts</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- User Management -->
+        <div id="userManagement" class="page">
+            <div class="container">
+                <h1>User Management</h1>
+                <div class="user-management-controls">
+                    <button class="btn btn--primary" onclick="openCreateUserModal()">Add New User</button>
+                    <button class="btn btn--outline" onclick="exportUsers()">Export Users</button>
+                </div>
+                <div id="usersTable" class="users-table">
+                    <!-- Dynamic user table -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Audit Logs -->
+        <div id="auditLogs" class="page">
+            <div class="container">
+                <h1>Audit Logs</h1>
+                <div class="logs-controls">
+                    <div class="logs-filters">
+                        <select class="form-control" id="logUserFilter">
+                            <option value="">All Users</option>
+                        </select>
+                        <select class="form-control" id="logRoleFilter">
+                            <option value="">All Roles</option>
+                            <option value="student">Students</option>
+                            <option value="mentor">Mentors</option>
+                            <option value="placement">Placement</option>
+                            <option value="employer">Employers</option>
+                            <option value="admin">Admins</option>
+                        </select>
+                        <input type="date" class="form-control" id="logDateFilter">
+                    </div>
+                    <button class="btn btn--outline" onclick="exportLogs()">Export Logs</button>
+                </div>
+                <div id="logsTable" class="logs-table">
+                    <!-- Dynamic logs table -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Semester Reset -->
+        <div id="semesterReset" class="page">
+            <div class="container">
+                <h1>Semester Reset</h1>
+                <div class="reset-warning card">
+                    <div class="card__body">
+                        <h3>⚠️ Warning</h3>
+                        <p>This operation will reset the system for a new semester. Please ensure you have backed up all necessary data.</p>
+                    </div>
+                </div>
+                <div class="reset-options card">
+                    <div class="card__body">
+                        <h3>Reset Options</h3>
+                        <div class="reset-checkboxes">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="archiveApplications" checked> Archive current applications
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="resetStudentProfiles"> Reset student profiles
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="clearInternships"> Clear internship listings
+                            </label>
+                        </div>
+                        <button class="btn btn--primary" onclick="initiateSemesterReset()" style="margin-top: 20px;">
+                            Initiate Semester Reset
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- System Monitoring -->
+        <div id="systemMonitoring" class="page">
+            <div class="container">
+                <h1>System Monitoring</h1>
+                <div class="monitoring-grid">
+                    <div class="monitoring-card card">
+                        <div class="card__body">
+                            <h3>Server Health</h3>
+                            <div class="health-metrics">
+                                <div class="metric-item">
+                                    <span class="metric-label">CPU Usage</span>
+                                    <div class="metric-bar">
+                                        <div class="metric-fill" data-value="32" style="width: 32%"></div>
+                                    </div>
+                                    <span class="metric-value">32%</span>
+                                </div>
+                                <div class="metric-item">
+                                    <span class="metric-label">Memory Usage</span>
+                                    <div class="metric-bar">
+                                        <div class="metric-fill" data-value="65" style="width: 65%"></div>
+                                    </div>
+                                    <span class="metric-value">65%</span>
+                                </div>
+                                <div class="metric-item">
+                                    <span class="metric-label">Storage Usage</span>
+                                    <div class="metric-bar">
+                                        <div class="metric-fill" data-value="78" style="width: 78%"></div>
+                                    </div>
+                                    <span class="metric-value">78%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="monitoring-card card">
+                        <div class="card__body">
+                            <h3>Database Status</h3>
+                            <div class="status-indicators">
+                                <div class="status-item">
+                                    <span class="status-dot status-good"></span>
+                                    <span>Connection: Good</span>
+                                </div>
+                                <div class="status-item">
+                                    <span class="status-dot status-good"></span>
+                                    <span>Response Time: 250ms</span>
+                                </div>
+                                <div class="status-item">
+                                    <span class="status-dot status-warning"></span>
+                                    <span>Error Rate: 0.02%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Error/Loading States -->
+        <div id="loadingSpinner" class="loading-spinner" style="display: none;">
+            <div class="spinner"></div>
+            <p>Loading...</p>
+        </div>
+        
+        <div id="errorMessage" class="error-message" style="display: none;">
+            <p>Something went wrong. Please try again.</p>
+        </div>
+    </main>
+
+    <!-- Modals -->
+    <div id="modal" class="modal hidden">
+        <div class="modal-backdrop" onclick="closeModal()"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Modal Title</h3>
+                <button class="modal-close" onclick="closeModal()">×</button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Dynamic content -->
+            </div>
+            <div class="modal-footer" id="modalFooter">
+                <!-- Dynamic actions -->
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
